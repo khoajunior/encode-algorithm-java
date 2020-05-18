@@ -6,6 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.encode.*;
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.ShortBufferException;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.Security;
+
 
 public class Main extends Application {
 
@@ -65,8 +74,43 @@ public class Main extends Application {
         System.out.println("chuỗi giải mã"+ railFence.Decryption(railciphertext,3));
 
 
+        System.out.println("-----------------------------------------------------");
+        System.out.println("thuật toám Steam Cipher");
+        stremcipher();
+    }
 
+    private static void stremcipher() throws Exception {
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
+        byte[] input = "phamminhkhoa".getBytes();
+        byte[] keyBytes = "input123".getBytes();
 
+        SecretKeySpec key = new SecretKeySpec(keyBytes, "ARC4");
+
+        Cipher cipher = Cipher.getInstance("ARC4", "BC");
+
+        byte[] cipherText = new byte[input.length];
+
+        cipher.init(Cipher.ENCRYPT_MODE, key);
+
+        int ctLength = cipher.update(input, 0, input.length, cipherText, 0);
+
+        ctLength += cipher.doFinal(cipherText, ctLength);
+
+        System.out.println("cipher text: " + new String(cipherText));
+
+        for(int i = 0 ;i< cipherText.length;i++){
+            System.out.println(cipherText[i]);
+        }
+
+        byte[] plainText = new byte[ctLength];
+
+        cipher.init(Cipher.DECRYPT_MODE, key);
+
+        int ptLength = cipher.update(cipherText, 0, ctLength, plainText, 0);
+
+        ptLength += cipher.doFinal(plainText, ptLength);
+
+        System.out.println("plain text : " + new String(plainText));
     }
 }
