@@ -28,10 +28,19 @@ public class Main extends Application {
 
 
     public static void main(String[] args) throws Exception {
-        launch(args);
+       // launch(args);
+        System.out.println("thuật toán Ceasar ");
+        String message = "PhamMinhKhoa";
+        System.out.println("chuỗi là " +message);
+        CaesarCipher caesarCipher = new CaesarCipher();
+        System.out.println(CaesarCipher.encrypt(message, 3));
+        System.out.println(CaesarCipher.decrypt(CaesarCipher.encrypt(message, 3), 3));
+
+
+        System.out.println("----------------------------------------------------");
         String s = "PhamMinhKhoa";
         System.out.println("chuổi = Phạm Minh Khoa");
-        System.out.println("thuật toán Ceasar");
+        System.out.println("thuật toán Ceasar mod");
         System.out.println("khóa = " + 3);
         Ceasar ce = new Ceasar();
         System.out.println("Chuổi cần mã hóa: "+ce.MaHoa("PhamMinhKhoa",3));
@@ -77,7 +86,38 @@ public class Main extends Application {
         System.out.println("-----------------------------------------------------");
         System.out.println("thuật toám Steam Cipher");
         stremcipher();
+
+
+        System.out.println("-----------------------------------------------------");
+        System.out.println("thuật toám Block Cipher");
+        final String secretKey = "abc123";
+
+        String originalString = "phamminhkhoa";
+        String encryptedString = AES.encrypt(originalString, secretKey) ;
+        String decryptedString = AES.decrypt(encryptedString, secretKey) ;
+
+        System.out.println("Từ muốn mã hóa "+originalString);
+        System.out.println("từ đã mã hóa "+encryptedString);
+        System.out.println("từ gốc "+decryptedString);
+
+        System.out.println("-----------------------------------------------------");
+        System.out.println("thuật toám DES");
+        System.out.println("từ muốn mã hóa "+ originalString);
+        System.out.println(DES.encrypted(originalString));
+        System.out.println(DES.decrypted(DES.encrypted(originalString)));
+
+
+
+        System.out.println("-----------------------------------------------------");
+        System.out.println("thuật toám triple DES");
+        System.out.println("từ muốn mã hóa "+ originalString);
+        TripleDES tripleDES = new TripleDES("abc123");
+        System.out.println(tripleDES.harden(originalString));
+        System.out.println(tripleDES.soften(tripleDES.harden(originalString)));
     }
+
+
+
 
     private static void stremcipher() throws Exception {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
@@ -98,10 +138,10 @@ public class Main extends Application {
         ctLength += cipher.doFinal(cipherText, ctLength);
 
         System.out.println("cipher text: " + new String(cipherText));
-
-        for(int i = 0 ;i< cipherText.length;i++){
-            System.out.println(cipherText[i]);
-        }
+//
+//        for(int i = 0 ;i< cipherText.length;i++){
+//            System.out.println(cipherText[i]);
+//        }
 
         byte[] plainText = new byte[ctLength];
 
