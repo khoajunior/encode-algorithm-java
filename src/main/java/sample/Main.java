@@ -86,6 +86,8 @@ public class Main extends Application {
         System.out.println("-----------------------------------------------------");
         System.out.println("thuật toám Steam Cipher");
         stremcipher();
+        System.out.println(StreamCipher.encrypt("phamminhkhoa","input123"));
+        System.out.println(StreamCipher.decrypt(StreamCipher.encrypt("phamminhkhoa","input123"),"input123"));
 
 
         System.out.println("-----------------------------------------------------");
